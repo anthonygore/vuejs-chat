@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VueJS + SocketIO + Express Chat App</title>
+  <script data-main="/js/main" src="/js/require.js"></script>
+</head>
+<body>
+<h1>VueJS + SocketIO + Express Chat App</h1>
+<div id="chat">
+  <ul>
+    <li v-for="message in messages">
+      <div>
+        <div>
+          <span>{{ message.username }}</span>
+          <span>{{ message.date | formatMessageDate }}</span>
+        </div>
+        <div>{{ message.message }}</div>
+      </div>
+
+    </li>
+  </ul>
+  <input
+    autofocus autocomplete="off"
+    v-model="chatText"
+    v-on:keyup.enter="submitChat">
+</div>
+</body>
+</html>

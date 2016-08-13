@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.js"],"names":[],"mappings":"AAAA;;AAEA,OAAO,CAAC,SAAD,EAAY,MAAZ,CAAP,EAA4B,UAAU,OAAV,EAAmB;;AAE7C,MAAI,OAAO,QAAQ,QAAR,CAAX;AAED,CAJD","file":"index.js","sourcesContent":["'use strict';\n\ndefine(['require', 'chat'], function (require) {\n\n  var chat = require('./chat');\n\n});\n"],"sourceRoot":"/source/"}
