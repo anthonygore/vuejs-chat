@@ -10,3 +10,4 @@ Features will include:
 - Notification
 - User authentication
 
+Run `gulp` to start the project and navigate to localhost:3000
