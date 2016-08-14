@@ -8,25 +8,27 @@
 <body>
 <h1>VueJS + SocketIO + Express Chat App</h1>
 <div id="chat" v-cloak>
-  <h3>Users online</h3>
-  <ul class="user-list">
-    <li v-for="user in users" track-by="username">
-      {{ user.username }}
-    </li>
-  </ul>
-  <h3>Messages</h3>
-  <ul class="message-list">
-    <li v-for="message in messages" class="message-wrapper">
-      <div>
+  <div class="user-list-wrapper">
+    <ul class="user-list">
+      <li v-for="user in users" track-by="username" class="user-wrapper">
+        <span class="username">{{ user.username }}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="message-list-wrapper">
+    <ul class="message-list">
+      <li v-for="message in messages" class="message-wrapper">
         <div>
-          <span class="username">{{ message.username }}</span>
-          <span class="date">{{ message.date | formatMessageDate }}</span>
+          <div>
+            <span class="username">{{ message.username }}</span>
+            <span class="date">{{ message.date | formatMessageDate }}</span>
+          </div>
+          <div class="message">{{ message.message }}</div>
         </div>
-        <div class="message">{{ message.message }}</div>
-      </div>
 
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
   <input
     autofocus autocomplete="off"
     v-model="chatText"

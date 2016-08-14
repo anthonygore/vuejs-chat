@@ -1,15 +1,31 @@
-[v-cloak]
-  display: none
+@mixin chat-border
+  border: 1px solid #BDBDBD
+  border-radius: 5px
+  padding: 20px
+  margin-bottom: 20px
 
-.message-list
-  list-style: none
-  padding: 0
-  .message-wrapper
-    padding-bottom: 5px
-    .username
-      font-weight: bold
-    .date
-      font-size: 0.8em
-      color: #424242
+.user-list-wrapper
+  @include chat-border()
+  .user-list
+    list-style: none
+    padding: 0
+    margin: 0
+    .user-wrapper
+      .username
+        font-weight: bold
+
+.message-list-wrapper
+  @include chat-border()
+  .message-list
+    list-style: none
+    padding: 0
+    margin: 0
+    .message-wrapper
+      padding-bottom: 5px
+      .username
+        font-weight: bold
+      .date
+        font-size: 0.8em
+        color: #616161
 
 
