@@ -23,8 +23,8 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
     chatText: ''
   };
 
-  function addUser(username) {
-    data.users.push({ username: username });
+  function addUser(user) {
+    data.users.push(user);
   }
 
   function addMessage(message) {
@@ -35,13 +35,34 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
     return moment(value).format('h:mm A');
   });
 
-  Vue.filter('isNotSubsequentMessage', function (currentMessage, index) {
+  function isNotSubsequentMessage(currentMessage, index) {
     var previousMessage = data.messages[index - 1];
     if (!previousMessage) return true;
     return previousMessage.username !== currentMessage.username;
+  }
+
+  Vue.filter('isNotSubsequentMessage', isNotSubsequentMessage);
+
+  Vue.filter('getMessageClass', function (currentMessage, index) {
+    if (isNotSubsequentMessage(currentMessage, index) && index !== 0) {
+      return 'message-top-padding';
+    } else {
+      return '';
+    }
   });
 
-  var username = 'george'.concat(Math.floor(Math.random() * 100 + 1));
+  Vue.transition('messageAdded', {
+    css: false,
+    enter: function enter(el, done) {
+      var messageList = document.getElementById('message-list');
+      messageList.scrollTop = messageList.scrollHeight;
+      done();
+    }
+
+  });
+
+  var username = 'george'.concat(Math.floor(Math.random() * 100 + 1)),
+      avatar = 'http://www.picgifs.com/avatars/celebrities/nicolas-cage/avatars-nicolas-cage-621219.jpg';
 
   new Vue({
     el: '#chat',
@@ -54,7 +75,8 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
           var message = {
             username: username,
             message: chatText,
-            date: Date.now()
+            date: Date.now(),
+            avatar: avatar
           };
           addMessage(message);
           socket.emit('chatTextClientToServer', message);
@@ -65,12 +87,16 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
 
   // Add this user on page load
   (function () {
-    socket.emit('userJoinedClientToServer', username);
-    addUser(username);
+    var user = {
+      username: username,
+      avatar: avatar
+    };
+    socket.emit('userJoinedClientToServer', user);
+    addUser(user);
   })();
 
   socket.on('userJoinedServerToClient', function (obj) {
-    addUser(obj.username);
+    addUser(obj);
   });
 
   socket.on('chatTextServerToClient', function (message) {

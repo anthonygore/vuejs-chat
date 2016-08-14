@@ -8,14 +8,14 @@ module.exports = (app, server) => {
 
     let addedUser = false;
 
-    socket.on('userJoinedClientToServer', (username) => {
+    socket.on('userJoinedClientToServer', (user) => {
 
       if (addedUser) return;
-      socket.username = username;
+      socket.user = user;
       addedUser = true;
 
       socket.broadcast.emit('userJoinedServerToClient', {
-        username: socket.username,
+        username: socket.user,
       });
     });
 

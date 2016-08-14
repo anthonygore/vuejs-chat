@@ -17,9 +17,13 @@
       </ul>
     </div>
     <div class="message-list-wrapper">
-      <ul class="message-list">
-        <li v-for="(index, message) in messages" class="message-wrapper">
-          <div>
+      <ul id="message-list" class="message-list">
+        <li v-for="(index, message) in messages" transition="messageAdded" class="message-wrapper">
+          <div v-bind:class="message | getMessageClass index ">
+            <div v-if="message | isNotSubsequentMessage index" class="avatar">
+              <img v-bind:src="message.avatar"/>
+            </div>
+            <div v-else class="avatar-filler"></div>
             <div v-if="message | isNotSubsequentMessage index" class="message-heading">
               <span class="username">{{ message.username }}</span>
               <span class="date">{{ message.date | formatMessageDate }}</span>

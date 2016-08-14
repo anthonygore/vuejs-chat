@@ -38,13 +38,34 @@ $border-radius: 5px;
     .message-list {
       overflow-y: auto;
       list-style: none;
-      padding: 0;
+      padding: 0 0 10px;
       margin: 0;
       flex: 1;
       .message-wrapper {
         padding-bottom: 3px;
+        clear: both;
+        $avatar-width: 32px;
+        $avatar-margin-right: 5px;
+        .message-top-padding {
+          padding-top: 10px;
+        }
+        .avatar {
+          display: inline-block;
+          float: left;
+          img {
+            border-radius: 3px;
+            height: $avatar-width;
+            width: $avatar-width;
+            margin-right: $avatar-margin-right;
+          }
+        }
+        .avatar-filler {
+          height: 1px;
+          width: $avatar-width + $avatar-margin-right;
+          float: left;
+        }
         .message-heading {
-          padding-bottom: 6px;
+          padding-bottom: 3px;
           .username {
             font-weight: bold;
           }
