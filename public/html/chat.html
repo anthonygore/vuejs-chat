@@ -7,7 +7,14 @@
 </head>
 <body>
 <h1>VueJS + SocketIO + Express Chat App</h1>
-<div id="chat">
+<div id="chat" v-cloak>
+  <h3>Users online</h3>
+  <ul class="user-list">
+    <li v-for="user in users" track-by="username">
+      {{ user.username }}
+    </li>
+  </ul>
+  <h3>Messages</h3>
   <ul class="message-list">
     <li v-for="message in messages" class="message-wrapper">
       <div>

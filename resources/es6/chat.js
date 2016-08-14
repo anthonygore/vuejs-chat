@@ -2,7 +2,6 @@
 
 define(['vuejs', 'socket.io-client', 'momentjs'], function () {
 
-
   const Vue = require('vuejs'),
     moment = require('momentjs'),
     io = require('socket.io-client');
@@ -18,15 +17,25 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
   }
 
   // Vue
+  var data = {
+    messages: [],
+    users: [],
+    chatText: ''
+  };
+
+  function addUser(username) {
+    data.users.push({ username });
+  }
+
+  function addMessage(message) {
+    data.messages.push(message);
+  }
 
   Vue.filter('formatMessageDate', (value) => {
     return moment(value).format('h:mm A');
   });
 
-  var data = {
-    messages: [],
-    chatText: ''
-  };
+  let username = 'george'.concat(Math.floor((Math.random() * 100) + 1));
 
   new Vue({
     el: '#chat',
@@ -36,24 +45,30 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
         var chatText = cleanInput(this.chatText);
         if (chatText && connected) {
           this.chatText = '';
-          socket.emit('chatTextClientToServer', {
+          let message = {
+            username,
             message: chatText,
             date: Date.now()
-          });
+          };
+          addMessage(message);
+          socket.emit('chatTextClientToServer', message);
         }
       }
     }
   });
 
-  // Socket
-  socket.on('chatTextServerToClient', (message) => {
-    data.messages.push(message);
+  // Add this user on page load
+  (function() {
+    socket.emit('userJoinedClientToServer', username);
+    addUser(username);
+  })();
+
+  socket.on('userJoinedServerToClient', (obj) => {
+    addUser(obj.username);
   });
 
-  return {
-    getHello: function () {
-      return 'Hello World';
-    }
-  };
+  socket.on('chatTextServerToClient', (message) => {
+    addMessage(message);
+  });
 
 });

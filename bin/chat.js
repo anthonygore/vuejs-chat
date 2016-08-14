@@ -6,13 +6,22 @@ module.exports = (app, server) => {
 
   io.on('connection', (socket) => {
 
+    let addedUser = false;
+
+    socket.on('userJoinedClientToServer', (username) => {
+
+      if (addedUser) return;
+      socket.username = username;
+      addedUser = true;
+
+      socket.broadcast.emit('userJoinedServerToClient', {
+        username: socket.username,
+      });
+    });
+
     socket.on('chatTextClientToServer', (data) => {
 
-      socket.emit('chatTextServerToClient', {
-        username: 'johnsmith', // socket.username,
-        date: data.date,
-        message: data.message
-      });
+      socket.broadcast.emit('chatTextServerToClient', data);
 
     });
 

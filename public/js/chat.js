@@ -17,15 +17,25 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
   }
 
   // Vue
+  var data = {
+    messages: [],
+    users: [],
+    chatText: ''
+  };
+
+  function addUser(username) {
+    data.users.push({ username: username });
+  }
+
+  function addMessage(message) {
+    data.messages.push(message);
+  }
 
   Vue.filter('formatMessageDate', function (value) {
     return moment(value).format('h:mm A');
   });
 
-  var data = {
-    messages: [],
-    chatText: ''
-  };
+  var username = 'george'.concat(Math.floor(Math.random() * 100 + 1));
 
   new Vue({
     el: '#chat',
@@ -35,24 +45,30 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
         var chatText = cleanInput(this.chatText);
         if (chatText && connected) {
           this.chatText = '';
-          socket.emit('chatTextClientToServer', {
+          var message = {
+            username: username,
             message: chatText,
             date: Date.now()
-          });
+          };
+          addMessage(message);
+          socket.emit('chatTextClientToServer', message);
         }
       }
     }
   });
 
-  // Socket
-  socket.on('chatTextServerToClient', function (message) {
-    data.messages.push(message);
+  // Add this user on page load
+  (function () {
+    socket.emit('userJoinedClientToServer', username);
+    addUser(username);
+  })();
+
+  socket.on('userJoinedServerToClient', function (obj) {
+    addUser(obj.username);
   });
 
-  return {
-    getHello: function getHello() {
-      return 'Hello World';
-    }
-  };
+  socket.on('chatTextServerToClient', function (message) {
+    addMessage(message);
+  });
 });
 //# sourceMappingURL=chat.js.map
