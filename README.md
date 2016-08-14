@@ -9,5 +9,6 @@ Features will include:
 - Emojis
 - Notification
 - User authentication
+- User avatars
 
 Run `gulp` to start the project and navigate to localhost:3000
