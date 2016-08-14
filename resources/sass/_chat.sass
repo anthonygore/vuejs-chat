@@ -1,48 +1,58 @@
 $chat-section-max-width: 400px
 $chat-section-padding: 20px
 $message-list-height: 200px
-$chat-input-height: 30px
+$chat-input-height: 40px
+$border-color: #BDBDBD
+$border-radius: 5px
 
 @mixin chat-section-wrapper
-  border: 1px solid #BDBDBD
-  border-radius: 5px
+  border: 1px solid $border-color
+  border-radius: $border-radius
   padding: $chat-section-padding
   margin-bottom: 20px
   max-width: $chat-section-max-width
   position: relative
 
-.user-list-wrapper
-  @include chat-section-wrapper()
-  .user-list
-    list-style: none
-    padding: 0
-    margin: 0
-    .user-wrapper
-      .username
-        font-weight: bold
+#chat
+  display: flex
+  flex-direction: column
+  & > div
+    flex: 1
+  .user-list-wrapper
+    @include chat-section-wrapper()
+    .user-list
+      list-style: none
+      padding: 0
+      margin: 0
+      .user-wrapper
+        .username
+          font-weight: bold
 
-.message-list-wrapper
-  @include chat-section-wrapper()
-  height: $message-list-height
-  .message-list
-    height: $message-list-height - $chat-input-height
-    overflow-y: scroll
-    list-style: none
-    padding: 0
-    margin: 0
-    .message-wrapper
-      padding-bottom: 5px
-      .username
-        font-weight: bold
-      .date
-        font-size: 0.8em
-        color: #616161
-  .chat-text-input
-    position: absolute
-    height: $chat-input-height
-    bottom: $chat-section-padding
-    left: $chat-section-padding
-    padding: 5px
-    width: 100%
-    box-sizing: border-box
-    max-width: $chat-section-max-width
+  .message-list-wrapper
+    @include chat-section-wrapper()
+    .message-list
+      overflow-y: auto
+      list-style: none
+      padding: 0
+      margin: 0
+      .message-wrapper
+        padding-bottom: 5px
+        .username
+          font-weight: bold
+        .date
+          font-size: 0.8em
+          color: #616161
+    .chat-text-input
+      position: absolute
+      height: $chat-input-height
+      bottom: $chat-section-padding
+      left: $chat-section-padding
+      padding: 10px
+      width: 100%
+      box-sizing: border-box
+      max-width: $chat-section-max-width
+      font-size: 1em
+      border: 1px solid $border-color
+      border-radius: $border-radius
+      &:focus
+        outline: none

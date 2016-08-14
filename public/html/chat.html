@@ -6,33 +6,35 @@
   <script data-main="/js/main" src="/js/require.js"></script>
 </head>
 <body>
-<h1>VueJS + SocketIO + Express Chat App</h1>
-<div id="chat" v-cloak>
-  <div class="user-list-wrapper">
-    <ul class="user-list">
-      <li v-for="user in users" track-by="username" class="user-wrapper">
-        <span class="username">{{ user.username }}</span>
-      </li>
-    </ul>
-  </div>
-  <div class="message-list-wrapper">
-    <ul class="message-list">
-      <li v-for="message in messages" class="message-wrapper">
-        <div>
+<div class="container">
+  <h1>VueJS + SocketIO + Express Chat App</h1>
+  <div id="chat" v-cloak>
+    <div class="user-list-wrapper">
+      <ul class="user-list">
+        <li v-for="user in users" track-by="username" class="user-wrapper">
+          <span class="username">{{ user.username }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="message-list-wrapper">
+      <ul class="message-list">
+        <li v-for="message in messages" class="message-wrapper">
           <div>
-            <span class="username">{{ message.username }}</span>
-            <span class="date">{{ message.date | formatMessageDate }}</span>
+            <div>
+              <span class="username">{{ message.username }}</span>
+              <span class="date">{{ message.date | formatMessageDate }}</span>
+            </div>
+            <div class="message">{{ message.message }}</div>
           </div>
-          <div class="message">{{ message.message }}</div>
-        </div>
 
-      </li>
-    </ul>
-    <input
-      class="chat-text-input blinking-cursor"
-      autofocus autocomplete="off"
-      v-model="chatText"
-      v-on:keyup.enter="submitChat">
+        </li>
+      </ul>
+      <input
+        class="chat-text-input blinking-cursor"
+        autofocus autocomplete="off"
+        v-model="chatText"
+        v-on:keyup.enter="submitChat">
+    </div>
   </div>
 </div>
 </body>
