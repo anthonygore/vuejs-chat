@@ -28,11 +28,12 @@
 
       </li>
     </ul>
+    <input
+      class="chat-text-input blinking-cursor"
+      autofocus autocomplete="off"
+      v-model="chatText"
+      v-on:keyup.enter="submitChat">
   </div>
-  <input
-    autofocus autocomplete="off"
-    v-model="chatText"
-    v-on:keyup.enter="submitChat">
 </div>
 </body>
 </html>

@@ -1,11 +1,18 @@
-@mixin chat-border
+$chat-section-max-width: 400px
+$chat-section-padding: 20px
+$message-list-height: 200px
+$chat-input-height: 30px
+
+@mixin chat-section-wrapper
   border: 1px solid #BDBDBD
   border-radius: 5px
-  padding: 20px
+  padding: $chat-section-padding
   margin-bottom: 20px
+  max-width: $chat-section-max-width
+  position: relative
 
 .user-list-wrapper
-  @include chat-border()
+  @include chat-section-wrapper()
   .user-list
     list-style: none
     padding: 0
@@ -15,8 +22,11 @@
         font-weight: bold
 
 .message-list-wrapper
-  @include chat-border()
+  @include chat-section-wrapper()
+  height: $message-list-height
   .message-list
+    height: $message-list-height - $chat-input-height
+    overflow-y: scroll
     list-style: none
     padding: 0
     margin: 0
@@ -27,5 +37,12 @@
       .date
         font-size: 0.8em
         color: #616161
-
-
+  .chat-text-input
+    position: absolute
+    height: $chat-input-height
+    bottom: $chat-section-padding
+    left: $chat-section-padding
+    padding: 5px
+    width: 100%
+    box-sizing: border-box
+    max-width: $chat-section-max-width
