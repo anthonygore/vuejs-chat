@@ -18,9 +18,9 @@
     </div>
     <div class="message-list-wrapper">
       <ul class="message-list">
-        <li v-for="message in messages" class="message-wrapper">
+        <li v-for="(index, message) in messages" class="message-wrapper">
           <div>
-            <div>
+            <div v-if="message | isNotSubsequentMessage index">
               <span class="username">{{ message.username }}</span>
               <span class="date">{{ message.date | formatMessageDate }}</span>
             </div>

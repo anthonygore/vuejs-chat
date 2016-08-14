@@ -35,6 +35,12 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
     return moment(value).format('h:mm A');
   });
 
+  Vue.filter('isNotSubsequentMessage', (currentMessage, index) => {
+    let previousMessage = data.messages[index - 1];
+    if (!previousMessage) return true;
+    return previousMessage.username !== currentMessage.username;
+  });
+
   let username = 'george'.concat(Math.floor((Math.random() * 100) + 1));
 
   new Vue({
