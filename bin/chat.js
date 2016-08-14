@@ -14,9 +14,7 @@ module.exports = (app, server) => {
       socket.user = user;
       addedUser = true;
 
-      socket.broadcast.emit('userJoinedServerToClient', {
-        username: socket.user,
-      });
+      socket.broadcast.emit('userJoinedServerToClient', socket.user);
     });
 
     socket.on('chatTextClientToServer', (data) => {

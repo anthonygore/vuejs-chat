@@ -11,12 +11,19 @@
   <div id="chat" v-cloak>
     <div class="user-list-wrapper">
       <ul class="user-list">
+        <li class="user-wrapper">
+          <span class="username" v-on:click="changeChannel('public')">public</span>
+        </li>
         <li v-for="user in users" track-by="username" class="user-wrapper">
-          <span class="username">{{ user.username }}</span>
+          <span class="username" v-on:click="changeChannel(user.username)">{{ user.username }}</span>
         </li>
       </ul>
     </div>
     <div class="message-list-wrapper">
+      <div class="channel-heading">
+        <h3>#{{ channel }}</h3>
+        <hr/>
+      </div>
       <ul id="message-list" class="message-list">
         <li v-for="(index, message) in messages" transition="messageAdded" class="message-wrapper">
           <div v-bind:class="message | getMessageClass index ">

@@ -20,7 +20,8 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
   var data = {
     messages: [],
     users: [],
-    chatText: ''
+    chatText: '',
+    channel: 'public'
   };
 
   function addUser(user) {
@@ -68,6 +69,9 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
     el: '#chat',
     data: data,
     methods: {
+      changeChannel: function changeChannel(user) {
+        this.channel = user;
+      },
       submitChat: function submitChat() {
         var chatText = cleanInput(this.chatText);
         if (chatText && connected) {

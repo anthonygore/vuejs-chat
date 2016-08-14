@@ -9,10 +9,18 @@ $border-radius: 5px;
   border: 1px solid $border-color;
   border-radius: $border-radius;
   padding: $chat-section-padding;
-  margin-bottom: 20px;
+  margin: 0 0 20px 20px;
   max-width: $chat-section-max-width;
   position: relative;
 }
+
+@mixin username {
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 #chat {
   display: flex;
   flex-direction: column;
@@ -25,7 +33,7 @@ $border-radius: 5px;
       margin: 0;
       .user-wrapper {
         .username {
-          font-weight: bold;
+          @include username;
         }
       }
     }
@@ -35,6 +43,16 @@ $border-radius: 5px;
     @include chat-section-wrapper();
     display: flex;
     flex-direction: column;
+    .channel-heading {
+      h3 {
+        margin: 0;
+      }
+      hr {
+        margin: 1em 0;
+        border-top: 1px solid $border-color;
+        border-bottom: 0;
+      }
+    }
     .message-list {
       overflow-y: auto;
       list-style: none;
@@ -67,7 +85,7 @@ $border-radius: 5px;
         .message-heading {
           padding-bottom: 3px;
           .username {
-            font-weight: bold;
+            @include username();
           }
           .date {
             font-size: 0.8em;
