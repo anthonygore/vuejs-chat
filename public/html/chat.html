@@ -20,13 +20,12 @@
       <ul class="message-list">
         <li v-for="(index, message) in messages" class="message-wrapper">
           <div>
-            <div v-if="message | isNotSubsequentMessage index">
+            <div v-if="message | isNotSubsequentMessage index" class="message-heading">
               <span class="username">{{ message.username }}</span>
               <span class="date">{{ message.date | formatMessageDate }}</span>
             </div>
             <div class="message">{{ message.message }}</div>
           </div>
-
         </li>
       </ul>
       <input

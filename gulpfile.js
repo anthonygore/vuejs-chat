@@ -47,7 +47,7 @@ gulp.task('transpiler', function() {
 });
 
 gulp.task('css', function() {
-  return gulp.src(path.join(config.sassDir, '/style.sass'))
+  return gulp.src(path.join(config.sassDir, '/style.scss'))
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write())
@@ -61,6 +61,6 @@ gulp.task('jscs', () => {
 });
 
 gulp.task('default', ['server'], function () {
-  gulp.watch(path.join(config.sassDir, '/**/*.sass'), { debounceDelay: 2000 }, ['css']);
+  gulp.watch(path.join(config.sassDir, '/**/*.scss'), { debounceDelay: 2000 }, ['css']);
   gulp.watch(path.join(config.es6Dir, '**/*.js'), { debounceDelay: 2000 }, ['jscs', 'transpiler']);
 });
