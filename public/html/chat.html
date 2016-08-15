@@ -15,7 +15,9 @@
           <span class="username" v-on:click="changeChannel('public')">public</span>
         </li>
         <li v-for="user in users" track-by="_uid" class="user-wrapper">
-          <span class="username" v-on:click="changeChannel(user.username)">{{ user.username }}</span>
+          <span class="username" v-on:click="changeChannel(user.username)">
+            {{ user.username }} <span v-if="user.isYou">(you)</span>
+          </span>
         </li>
       </ul>
     </div>
@@ -25,7 +27,7 @@
         <hr/>
       </div>
       <ul id="message-list" class="message-list">
-        <li v-for="(index, message) in messages" transition="messageAdded" class="message-wrapper">
+        <li v-for="(index, message) in filteredMessages" transition="messageAdded" class="message-wrapper">
           <div v-bind:class="message | getMessageClass index ">
             <div v-if="message | isNotSubsequentMessage index" class="avatar">
               <img v-bind:src="message.avatar"/>

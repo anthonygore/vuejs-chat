@@ -74,8 +74,13 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
   new Vue({
     el: '#chat',
     data: data,
+    computed: {
+      filteredMessages: function() {
+        return this.messages.filter((message) => { return message.channel === this.channel; });
+      }
+    },
     methods: {
-      changeChannel: function (user) {
+      changeChannel(user) {
         this.channel = user;
       },
       submitChat() {
@@ -87,6 +92,7 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
             message: chatText,
             date: Date.now(),
             isServerMessage: false,
+            channel: this.channel,
             avatar
           };
           addMessage(message);
@@ -104,16 +110,19 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
       avatar
     };
     socket.emit('userJoinedClientToServer', user);
+    user.isYou = true;
     addUser(user);
   })();
 
   socket.on('userJoinedServerToClient', (obj) => {
+    obj.isYou = false;
     addUser(obj);
     addMessage({
       username: obj.username,
       avatar: obj.avatar,
       message: 'has joined.',
-      isServerMessage: true
+      isServerMessage: true,
+      channel: 'public'
     });
   });
 
