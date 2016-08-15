@@ -14,7 +14,7 @@
         <li class="user-wrapper">
           <span class="username" v-on:click="changeChannel('public')">public</span>
         </li>
-        <li v-for="user in users" track-by="username" class="user-wrapper">
+        <li v-for="user in users" track-by="_uid" class="user-wrapper">
           <span class="username" v-on:click="changeChannel(user.username)">{{ user.username }}</span>
         </li>
       </ul>
@@ -35,7 +35,7 @@
               <span class="username">{{ message.username }}</span>
               <span class="date">{{ message.date | formatMessageDate }}</span>
             </div>
-            <div class="message">{{ message.message }}</div>
+            <div class="message {{ message.isServerMessage ? 'server-message' : '' }}">{{ message.message }}</div>
           </div>
         </li>
       </ul>

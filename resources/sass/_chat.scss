@@ -1,4 +1,4 @@
-$chat-section-max-width: 400px;
+$chat-section-max-width: 350px;
 $chat-section-padding: 20px;
 $message-list-height: 200px;
 $chat-input-height: 40px;
@@ -90,6 +90,12 @@ $border-radius: 5px;
           .date {
             font-size: 0.8em;
             color: #616161;
+          }
+        }
+        .message {
+          &.server-message {
+            color: #757575;
+            font-style: italic;
           }
         }
       }

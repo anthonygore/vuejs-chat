@@ -28,6 +28,10 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
     data.users.push(user);
   }
 
+  function removeUser(_uid) {
+    data.users = data.users.filter((user) => { return user._uid !== _uid; });
+  }
+
   function addMessage(message) {
     data.messages.push(message);
   }
@@ -62,8 +66,9 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
 
   });
 
-  let username = 'george'.concat(Math.floor((Math.random() * 100) + 1)),
-    avatar = 'http://www.picgifs.com/avatars/celebrities/nicolas-cage/avatars-nicolas-cage-621219.jpg'
+  let username = 'george'.concat(Math.floor((Math.random() * 100)))
+    , avatar = 'http://www.picgifs.com/avatars/celebrities/nicolas-cage/avatars-nicolas-cage-621219.jpg'
+    , _uid = Math.floor((Math.random() * 10000))
     ;
 
   new Vue({
@@ -81,6 +86,7 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
             username,
             message: chatText,
             date: Date.now(),
+            isServerMessage: false,
             avatar
           };
           addMessage(message);
@@ -94,6 +100,7 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
   (function() {
     let user = {
       username,
+      _uid,
       avatar
     };
     socket.emit('userJoinedClientToServer', user);
@@ -102,6 +109,16 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
 
   socket.on('userJoinedServerToClient', (obj) => {
     addUser(obj);
+    addMessage({
+      username: obj.username,
+      avatar: obj.avatar,
+      message: 'has joined.',
+      isServerMessage: true
+    });
+  });
+
+  socket.on('userLeftServerToClient', (obj) => {
+    removeUser(obj._uid);
   });
 
   socket.on('chatTextServerToClient', (message) => {

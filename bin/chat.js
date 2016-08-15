@@ -15,12 +15,17 @@ module.exports = (app, server) => {
       addedUser = true;
 
       socket.broadcast.emit('userJoinedServerToClient', socket.user);
+
     });
 
     socket.on('chatTextClientToServer', (data) => {
-
       socket.broadcast.emit('chatTextServerToClient', data);
+    });
 
+    socket.on('disconnect', function () {
+      if (addedUser) {
+        socket.broadcast.emit('userLeftServerToClient', socket.user);
+      }
     });
 
 
