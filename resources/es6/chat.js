@@ -71,12 +71,33 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
     , _uid = Math.floor((Math.random() * 10000))
     ;
 
+  function countUnreadMessages(channel) {
+    let count = 0;
+    data.messages.forEach((message) => {
+      if (message.channel === channel) {
+        count++;
+      }
+    });
+    return count;
+  }
+
   new Vue({
     el: '#chat',
     data: data,
     computed: {
       filteredMessages: function() {
         return this.messages.filter((message) => { return message.channel === this.channel; });
+      },
+      channels: function() {
+        return this.users.map((user) => {
+          user.isYou = (user._uid === _uid);
+          //user.unreadMessages = 0;
+          user.unreadMessages = countUnreadMessages(this.channel);
+          if (this.channel !== user.username) {
+            user.unreadMessages = countUnreadMessages(this.channel);
+          }
+          return user;
+        });
       }
     },
     methods: {
@@ -110,19 +131,18 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
       avatar
     };
     socket.emit('userJoinedClientToServer', user);
-    user.isYou = true;
     addUser(user);
   })();
 
   socket.on('userJoinedServerToClient', (obj) => {
-    obj.isYou = false;
     addUser(obj);
     addMessage({
       username: obj.username,
       avatar: obj.avatar,
       message: 'has joined.',
       isServerMessage: true,
-      channel: 'public'
+      channel: 'public',
+      unread: true
     });
   });
 

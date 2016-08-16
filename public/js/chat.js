@@ -72,6 +72,16 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
       avatar = 'http://www.picgifs.com/avatars/celebrities/nicolas-cage/avatars-nicolas-cage-621219.jpg',
       _uid = Math.floor(Math.random() * 10000);
 
+  function countUnreadMessages(channel) {
+    var count = 0;
+    data.messages.forEach(function (message) {
+      if (message.channel === channel) {
+        count++;
+      }
+    });
+    return count;
+  }
+
   new Vue({
     el: '#chat',
     data: data,
@@ -81,6 +91,19 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
 
         return this.messages.filter(function (message) {
           return message.channel === _this.channel;
+        });
+      },
+      channels: function channels() {
+        var _this2 = this;
+
+        return this.users.map(function (user) {
+          user.isYou = user._uid === _uid;
+          //user.unreadMessages = 0;
+          user.unreadMessages = countUnreadMessages(_this2.channel);
+          if (_this2.channel !== user.username) {
+            user.unreadMessages = countUnreadMessages(_this2.channel);
+          }
+          return user;
         });
       }
     },
@@ -115,19 +138,18 @@ define(['vuejs', 'socket.io-client', 'momentjs'], function () {
       avatar: avatar
     };
     socket.emit('userJoinedClientToServer', user);
-    user.isYou = true;
     addUser(user);
   })();
 
   socket.on('userJoinedServerToClient', function (obj) {
-    obj.isYou = false;
     addUser(obj);
     addMessage({
       username: obj.username,
       avatar: obj.avatar,
       message: 'has joined.',
       isServerMessage: true,
-      channel: 'public'
+      channel: 'public',
+      unread: true
     });
   });
 

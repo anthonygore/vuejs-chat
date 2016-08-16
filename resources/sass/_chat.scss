@@ -35,6 +35,14 @@ $border-radius: 5px;
         .username {
           @include username;
         }
+        .unread-message-count {
+          font-size: 0.62em;
+          vertical-align: middle;
+          padding: 1px 4px;
+          border-radius: 1000px;
+          background-color: red;
+          color: white;
+        }
       }
     }
   }

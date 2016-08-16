@@ -14,10 +14,11 @@
         <li class="user-wrapper">
           <span class="username" v-on:click="changeChannel('public')">public</span>
         </li>
-        <li v-for="user in users" track-by="_uid" class="user-wrapper">
-          <span class="username" v-on:click="changeChannel(user.username)">
-            {{ user.username }} <span v-if="user.isYou">(you)</span>
+        <li v-for="channel in channels" track-by="_uid" class="user-wrapper">
+          <span class="username" v-on:click="changeChannel(channel.username)">
+            {{ channel.username }} <span v-if="channel.isYou">(you)</span>
           </span>
+          <span v-if="channel.unreadMessages" class="unread-message-count">{{ channel.unreadMessages }}</span>
         </li>
       </ul>
     </div>
